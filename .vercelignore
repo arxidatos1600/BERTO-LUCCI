@@ -1,0 +1,14 @@
+# Product photography is served from Shopify's CDN in production
+# (NEXT_PUBLIC_IMG_CDN=1), where the originals are 1550x2325 vs our local
+# 1200x1800 downscales. Excluding them keeps ~1.8 GB / 15,912 files out of the
+# deployment, which both dodges Vercel's file-count limits and makes redeploys
+# fast. The files stay in git/local for offline dev and as the fallback source.
+public/bertolucci_images
+
+# Never needed in a deployment
+berto-lucci-final.zip
+*.zip
+
+# Local Vercel CLI state / dev OIDC token — never part of the deployment source
+.vercel
+.env*

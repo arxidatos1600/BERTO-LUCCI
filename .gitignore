@@ -1,0 +1,49 @@
+# dependencies
+/node_modules
+/.pnp
+.pnp.js
+
+# next.js
+/.next/
+/out/
+
+# production
+/build
+
+# misc
+.DS_Store
+*.pem
+
+# debug
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# local env files
+.env*.local
+
+# typescript
+*.tsbuildinfo
+next-env.d.ts
+
+# downloaded product imagery is large — keep out of git, regenerate via scripts
+/public/bertolucci_images/
+
+.vercel
+.env*
+
+# ---- Berto Lucci ----
+# Product photography (1.8 GB / 15,912 files: jpg + webp + avif twins).
+# Deliberately NOT versioned: production serves these from Shopify's CDN, which
+# holds the ORIGINALS at 1550x2325 (higher res than these local 1200px copies).
+# A fresh clone works with no images present because NEXT_PUBLIC_IMG_CDN
+# defaults to on. Set it to 0 only on a machine that has this folder.
+/public/bertolucci_images
+
+# Vercel local link + pulled env (re-create with `vercel link` / `vercel env pull`)
+.vercel
+.env*.local
+.env
+
+# Local snapshots / archives
+*.zip

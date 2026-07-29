@@ -1,0 +1,614 @@
+{
+  "categories": [
+    {
+      "name": "Ties",
+      "count": 63
+    },
+    {
+      "name": "Formal Shirts",
+      "count": 32
+    },
+    {
+      "name": "Chinos",
+      "count": 22
+    },
+    {
+      "name": "Jeans",
+      "count": 22
+    },
+    {
+      "name": "Pocket Squares",
+      "count": 21
+    },
+    {
+      "name": "Printed Shirts",
+      "count": 21
+    },
+    {
+      "name": "Polo Shirts",
+      "count": 19
+    },
+    {
+      "name": "T-Shirts",
+      "count": 19
+    },
+    {
+      "name": "Check Shirts",
+      "count": 18
+    },
+    {
+      "name": "Suits",
+      "count": 17
+    },
+    {
+      "name": "Knitwear",
+      "count": 15
+    },
+    {
+      "name": "Pashminas",
+      "count": 12
+    },
+    {
+      "name": "Overshirts",
+      "count": 11
+    },
+    {
+      "name": "Short-Sleeve Shirts",
+      "count": 10
+    },
+    {
+      "name": "Half-Zip Knitwear",
+      "count": 9
+    },
+    {
+      "name": "Striped Shirts",
+      "count": 9
+    },
+    {
+      "name": "Blazers",
+      "count": 8
+    },
+    {
+      "name": "Coats",
+      "count": 8
+    },
+    {
+      "name": "Formal Trousers",
+      "count": 8
+    },
+    {
+      "name": "Tie Pins",
+      "count": 8
+    },
+    {
+      "name": "Leather Jackets",
+      "count": 7
+    },
+    {
+      "name": "Quilted Jackets",
+      "count": 7
+    },
+    {
+      "name": "Cardigans",
+      "count": 6
+    },
+    {
+      "name": "Chino Shorts",
+      "count": 6
+    },
+    {
+      "name": "Lightweight Jackets",
+      "count": 6
+    },
+    {
+      "name": "Button-Down Shirts",
+      "count": 5
+    },
+    {
+      "name": "Cargo Trousers",
+      "count": 5
+    },
+    {
+      "name": "Cufflinks",
+      "count": 5
+    },
+    {
+      "name": "Sneakers",
+      "count": 5
+    },
+    {
+      "name": "Bomber Jackets",
+      "count": 4
+    },
+    {
+      "name": "Gilets",
+      "count": 4
+    },
+    {
+      "name": "Printed Short-Sleeve Shirts",
+      "count": 4
+    },
+    {
+      "name": "Three-Piece Suits",
+      "count": 4
+    },
+    {
+      "name": "Five-Pocket Trousers",
+      "count": 3
+    },
+    {
+      "name": "Shoes",
+      "count": 3
+    },
+    {
+      "name": "Wedding Suits",
+      "count": 3
+    },
+    {
+      "name": "Zip Hoodies",
+      "count": 3
+    },
+    {
+      "name": "Cargo Shorts",
+      "count": 2
+    },
+    {
+      "name": "Casual Shoes",
+      "count": 2
+    },
+    {
+      "name": "Corduroy Shirts",
+      "count": 2
+    },
+    {
+      "name": "Denim Shorts",
+      "count": 2
+    },
+    {
+      "name": "Double-Breasted Suits",
+      "count": 2
+    },
+    {
+      "name": "French-Cuff Shirts",
+      "count": 2
+    },
+    {
+      "name": "Hoodies",
+      "count": 2
+    },
+    {
+      "name": "Jackets",
+      "count": 2
+    },
+    {
+      "name": "Joggers",
+      "count": 2
+    },
+    {
+      "name": "Linen Shirts",
+      "count": 2
+    },
+    {
+      "name": "Linen Trousers",
+      "count": 2
+    },
+    {
+      "name": "Shackets",
+      "count": 2
+    },
+    {
+      "name": "Shirts",
+      "count": 2
+    },
+    {
+      "name": "Tailored Trousers",
+      "count": 2
+    },
+    {
+      "name": "Turtlenecks",
+      "count": 2
+    },
+    {
+      "name": "Accessories",
+      "count": 1
+    },
+    {
+      "name": "Beanies",
+      "count": 1
+    },
+    {
+      "name": "Blazer & Waistcoat",
+      "count": 1
+    },
+    {
+      "name": "Bow Ties",
+      "count": 1
+    },
+    {
+      "name": "Denim Shirts",
+      "count": 1
+    },
+    {
+      "name": "Double-Breasted Blazers",
+      "count": 1
+    },
+    {
+      "name": "Espadrilles",
+      "count": 1
+    },
+    {
+      "name": "Formal Shoes",
+      "count": 1
+    },
+    {
+      "name": "Knit Vests",
+      "count": 1
+    },
+    {
+      "name": "Long-Sleeve Polos",
+      "count": 1
+    },
+    {
+      "name": "Long-Sleeve Tops",
+      "count": 1
+    },
+    {
+      "name": "Mandarin-Collar Shirts",
+      "count": 1
+    },
+    {
+      "name": "Oxford Shirts",
+      "count": 1
+    },
+    {
+      "name": "Puffer Jackets",
+      "count": 1
+    },
+    {
+      "name": "Roll Necks",
+      "count": 1
+    },
+    {
+      "name": "Scarves",
+      "count": 1
+    },
+    {
+      "name": "Slippers",
+      "count": 1
+    },
+    {
+      "name": "Striped Suits",
+      "count": 1
+    },
+    {
+      "name": "Sweatshirts",
+      "count": 1
+    },
+    {
+      "name": "Tailored Shorts",
+      "count": 1
+    },
+    {
+      "name": "Trench Coats",
+      "count": 1
+    }
+  ],
+  "colors": [
+    {
+      "name": "Black",
+      "hex": "#1c1c1c",
+      "count": 247
+    },
+    {
+      "name": "Blue",
+      "hex": "#2a4d8f",
+      "count": 141
+    },
+    {
+      "name": "White",
+      "hex": "#f4f1ea",
+      "count": 126
+    },
+    {
+      "name": "Navy",
+      "hex": "#1e2a44",
+      "count": 125
+    },
+    {
+      "name": "Beige",
+      "hex": "#d8c4a3",
+      "count": 104
+    },
+    {
+      "name": "Grey",
+      "hex": "#9a9a9a",
+      "count": 94
+    },
+    {
+      "name": "Green",
+      "hex": "#2f6b46",
+      "count": 84
+    },
+    {
+      "name": "Sky Blue",
+      "hex": "#86b6d6",
+      "count": 64
+    },
+    {
+      "name": "Light Grey",
+      "hex": "#c7cacd",
+      "count": 59
+    },
+    {
+      "name": "Camel",
+      "hex": "#c19a6b",
+      "count": 55
+    },
+    {
+      "name": "Olive",
+      "hex": "#6b6a37",
+      "count": 53
+    },
+    {
+      "name": "Bordeaux",
+      "hex": "#6e1f2c",
+      "count": 52
+    },
+    {
+      "name": "Brown",
+      "hex": "#6f4e37",
+      "count": 48
+    },
+    {
+      "name": "Pattern",
+      "hex": "#b9a98a",
+      "count": 47
+    },
+    {
+      "name": "Ecru",
+      "hex": "#e8e1cd",
+      "count": 42
+    },
+    {
+      "name": "Khaki",
+      "hex": "#8b855f",
+      "count": 39
+    },
+    {
+      "name": "Steel Blue",
+      "hex": "#566476",
+      "count": 32
+    },
+    {
+      "name": "Charcoal",
+      "hex": "#36393d",
+      "count": 21
+    },
+    {
+      "name": "Denim",
+      "hex": "#4a6b8a",
+      "count": 20
+    },
+    {
+      "name": "Red",
+      "hex": "#b4302a",
+      "count": 19
+    },
+    {
+      "name": "Turquoise",
+      "hex": "#1aa9a0",
+      "count": 17
+    },
+    {
+      "name": "Orange",
+      "hex": "#d97a2b",
+      "count": 16
+    },
+    {
+      "name": "Indigo",
+      "hex": "#3f4d7a",
+      "count": 12
+    },
+    {
+      "name": "Royal Blue",
+      "hex": "#27479e",
+      "count": 11
+    },
+    {
+      "name": "Dark Grey",
+      "hex": "#5a5f63",
+      "count": 11
+    },
+    {
+      "name": "Pink",
+      "hex": "#e3a4b4",
+      "count": 10
+    },
+    {
+      "name": "Mint",
+      "hex": "#a8d5ba",
+      "count": 9
+    },
+    {
+      "name": "Lilac",
+      "hex": "#b39ddb",
+      "count": 8
+    },
+    {
+      "name": "Purple",
+      "hex": "#7a519e",
+      "count": 8
+    },
+    {
+      "name": "Aubergine",
+      "hex": "#4b2e3a",
+      "count": 7
+    },
+    {
+      "name": "Cypress",
+      "hex": "#33503c",
+      "count": 7
+    },
+    {
+      "name": "Terracotta",
+      "hex": "#b5532f",
+      "count": 6
+    },
+    {
+      "name": "Light Beige",
+      "hex": "#e6d8bf",
+      "count": 5
+    },
+    {
+      "name": "Ice",
+      "hex": "#dde7ea",
+      "count": 5
+    },
+    {
+      "name": "Yellow",
+      "hex": "#e6c12f",
+      "count": 4
+    },
+    {
+      "name": "Mustard",
+      "hex": "#c79a26",
+      "count": 4
+    },
+    {
+      "name": "Aqua",
+      "hex": "#79c7c5",
+      "count": 4
+    },
+    {
+      "name": "Fuchsia",
+      "hex": "#bf2168",
+      "count": 3
+    },
+    {
+      "name": "Cigar",
+      "hex": "#6a4a32",
+      "count": 3
+    },
+    {
+      "name": "Salmon",
+      "hex": "#ef9f89",
+      "count": 2
+    },
+    {
+      "name": "Dark Beige",
+      "hex": "#bca989",
+      "count": 2
+    },
+    {
+      "name": "Lime Green",
+      "hex": "#8aa05a",
+      "count": 2
+    },
+    {
+      "name": "Cognac",
+      "hex": "#9c5a2c",
+      "count": 1
+    },
+    {
+      "name": "Ochre",
+      "hex": "#cc9544",
+      "count": 1
+    },
+    {
+      "name": "Light Sky",
+      "hex": "#aed4e8",
+      "count": 1
+    },
+    {
+      "name": "Silver",
+      "hex": "#c3c3c3",
+      "count": 1
+    },
+    {
+      "name": "Petrol",
+      "hex": "#2d5f6b",
+      "count": 1
+    },
+    {
+      "name": "Lime",
+      "hex": "#b6d94c",
+      "count": 1
+    },
+    {
+      "name": "Coral",
+      "hex": "#e9897e",
+      "count": 1
+    },
+    {
+      "name": "Light Pink",
+      "hex": "#f3c9d4",
+      "count": 1
+    },
+    {
+      "name": "Dark Blue",
+      "hex": "#1b2a52",
+      "count": 1
+    },
+    {
+      "name": "Blue Black",
+      "hex": "#161a2b",
+      "count": 1
+    },
+    {
+      "name": "Tobacco",
+      "hex": "#715031",
+      "count": 1
+    },
+    {
+      "name": "Dark Brown",
+      "hex": "#4a342a",
+      "count": 1
+    }
+  ],
+  "sizes": [
+    "XS",
+    "S",
+    "M",
+    "L",
+    "XL",
+    "XXL",
+    "3XL",
+    "4XL",
+    "5XL",
+    "6XL",
+    "28",
+    "29",
+    "30",
+    "31",
+    "32",
+    "33",
+    "34",
+    "36",
+    "38",
+    "39",
+    "40",
+    "41",
+    "42",
+    "43",
+    "44",
+    "45",
+    "46",
+    "47",
+    "48",
+    "49",
+    "50",
+    "52",
+    "54",
+    "56",
+    "58",
+    "60",
+    "62",
+    "64",
+    "66",
+    "One Size"
+  ],
+  "priceMin": 10,
+  "priceMax": 299,
+  "total": 483,
+  "onSaleCount": 66
+}

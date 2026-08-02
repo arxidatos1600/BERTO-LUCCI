@@ -3,9 +3,12 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ChevronRight } from "lucide-react";
 import { getProduct, getRelated, getAllHandles } from "@/lib/products";
+import { toCardProducts } from "@/lib/card-product";
 import { jsonLdSafe } from "@/lib/utils";
 import { ProductDetail } from "@/components/product-detail";
 import { RelatedProducts } from "@/components/related-products";
+import { RecentlyViewed } from "@/components/recently-viewed";
+import { ReviewsSection } from "@/components/reviews-section";
 
 interface PageProps {
   params: Promise<{ handle: string }>;
@@ -59,7 +62,11 @@ export default async function ProductPage({ params }: PageProps) {
   const product = getProduct(handle);
   if (!product) notFound();
 
-  const related = getRelated(product, 4);
+  // The related rail only paints cards, so project it (see lib/card-product.ts).
+  // `bundleItems` keeps the full product: frequently-bought-together resolves a
+  // real variant by size and adds it to the cart, so it needs `variants`.
+  const related = toCardProducts(getRelated(product, 4));
+  const bundleItems = getRelated(product, 3);
 
   const productJsonLd = {
     "@context": "https://schema.org",
@@ -120,11 +127,12 @@ export default async function ProductPage({ params }: PageProps) {
         <span className="truncate text-foreground">{product.title}</span>
       </nav>
 
-      <div className="container">
-        <ProductDetail product={product} />
-      </div>
+      <ProductDetail product={product} companions={bundleItems} />
+
+      <ReviewsSection productHandle={product.handle} />
 
       <RelatedProducts products={related} />
+      <RecentlyViewed excludeHandle={product.handle} />
     </div>
   );
 }

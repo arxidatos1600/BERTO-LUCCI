@@ -59,13 +59,45 @@ export function Filters({ facets, value, onChange, onReset }: FiltersProps) {
     onChange({ ...value, [key]: Array.from(set) });
   };
 
-  // Editable price inputs, clamped to the facet bounds and to each other.
-  const setMin = (raw: string) => {
-    const n = Math.max(facets.priceMin, Math.min(Number(raw) || facets.priceMin, value.price[1]));
+  /* Editable price inputs.
+     These hold their own raw text while being typed and only clamp on commit
+     (blur / Enter). Clamping on every keystroke made the field unusable: with
+     a €10 floor, typing "5" as the first character of "50" was immediately
+     rewritten to "10", and `Number("") || facets.priceMin` meant the box could
+     never be cleared to retype it. Committing on blur lets a partial value
+     exist mid-typing, which is the whole point of a free-text number field. */
+  const [priceDraft, setPriceDraft] = React.useState<[string, string]>([
+    String(value.price[0]),
+    String(value.price[1]),
+  ]);
+
+  // Re-sync when the range changes from anywhere else (slider, reset, facets).
+  React.useEffect(() => {
+    setPriceDraft([String(value.price[0]), String(value.price[1])]);
+  }, [value.price]);
+
+  const commitMin = (raw: string) => {
+    if (raw.trim() === "") {
+      onChange({ ...value, price: [facets.priceMin, value.price[1]] });
+      return;
+    }
+    const n = Math.max(facets.priceMin, Math.min(Number(raw), value.price[1]));
+    if (Number.isNaN(n)) {
+      setPriceDraft((d) => [String(value.price[0]), d[1]]);
+      return;
+    }
     onChange({ ...value, price: [n, value.price[1]] });
   };
-  const setMax = (raw: string) => {
-    const n = Math.min(facets.priceMax, Math.max(Number(raw) || facets.priceMax, value.price[0]));
+  const commitMax = (raw: string) => {
+    if (raw.trim() === "") {
+      onChange({ ...value, price: [value.price[0], facets.priceMax] });
+      return;
+    }
+    const n = Math.min(facets.priceMax, Math.max(Number(raw), value.price[0]));
+    if (Number.isNaN(n)) {
+      setPriceDraft((d) => [d[0], String(value.price[1])]);
+      return;
+    }
     onChange({ ...value, price: [value.price[0], n] });
   };
 
@@ -75,7 +107,7 @@ export function Filters({ facets, value, onChange, onReset }: FiltersProps) {
     (value.price[0] > facets.priceMin || value.price[1] < facets.priceMax ? 1 : 0);
 
   return (
-    <div className="thin-scroll on-dark rounded-lg bg-[hsl(var(--section-navy))] p-5 text-foreground lg:sticky lg:top-20 lg:max-h-[calc(100vh-6rem)] lg:overflow-y-auto">
+    <div className="thin-scroll filter-rail on-dark rounded-lg bg-[hsl(var(--section-navy))] p-5 text-foreground lg:sticky lg:top-20 lg:overflow-y-auto">
       <div className="flex items-center justify-between">
         <p className="font-serif text-lg text-navy">
           {t.filters}
@@ -85,7 +117,7 @@ export function Filters({ facets, value, onChange, onReset }: FiltersProps) {
             </span>
           )}
         </p>
-        <Button variant="link" size="sm" onClick={onReset} className="h-auto px-0 text-xs text-accent">
+        <Button variant="link" size="sm" onClick={onReset} className="h-auto min-h-6 px-0 py-1 text-xs text-accent">
           {t.resetAll}
         </Button>
       </div>
@@ -98,6 +130,7 @@ export function Filters({ facets, value, onChange, onReset }: FiltersProps) {
             value={value.search}
             onChange={(e) => onChange({ ...value, search: e.target.value })}
             placeholder={t.searchPlaceholder}
+            aria-label={t.search}
             className="pl-9"
           />
           {value.search && (
@@ -261,8 +294,12 @@ export function Filters({ facets, value, onChange, onReset }: FiltersProps) {
                 inputMode="numeric"
                 min={facets.priceMin}
                 max={value.price[1]}
-                value={value.price[0]}
-                onChange={(e) => setMin(e.target.value)}
+                value={priceDraft[0]}
+                onChange={(e) => setPriceDraft((d) => [e.target.value, d[1]])}
+                onBlur={(e) => commitMin(e.target.value)}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter") e.currentTarget.blur();
+                }}
                 className="h-9 pl-6 text-sm"
                 aria-label={`${t.price} ${t.min}`}
               />
@@ -278,8 +315,12 @@ export function Filters({ facets, value, onChange, onReset }: FiltersProps) {
                 inputMode="numeric"
                 min={value.price[0]}
                 max={facets.priceMax}
-                value={value.price[1]}
-                onChange={(e) => setMax(e.target.value)}
+                value={priceDraft[1]}
+                onChange={(e) => setPriceDraft((d) => [d[0], e.target.value])}
+                onBlur={(e) => commitMax(e.target.value)}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter") e.currentTarget.blur();
+                }}
                 className="h-9 pl-6 text-sm"
                 aria-label={`${t.price} ${t.max}`}
               />

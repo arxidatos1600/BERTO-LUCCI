@@ -61,12 +61,35 @@ export function Hero({ slides, t }: { slides: HeroSlide[]; t: HeroCopy }) {
   const [paused, setPaused] = React.useState(false);
   const cur = slides[active] ?? slides[0];
 
-  // Self-rescheduling timer: gently crossfades to the next slide every 4s.
+  // Only the first slide exists in the DOM on first paint. The others are
+  // absolutely positioned at inset-0 with opacity-0 — which means they are
+  // IN the viewport, so `loading="lazy"` never held them back and the browser
+  // fetched all six full-bleed photographs in parallel with the LCP image. They
+  // are not needed until the first crossfade at 4 s, so they mount once the main
+  // thread is idle (or after 1.5 s, whichever comes first).
+  const [mountCount, setMountCount] = React.useState(1);
   React.useEffect(() => {
-    if (count < 2 || paused) return;
+    if (count < 2) return;
+    const load = () => setMountCount(count);
+    const ric = (window as unknown as {
+      requestIdleCallback?: (cb: () => void, o?: { timeout: number }) => number;
+    }).requestIdleCallback;
+    if (ric) {
+      const id = ric(load, { timeout: 1500 });
+      return () => (window as unknown as { cancelIdleCallback?: (n: number) => void })
+        .cancelIdleCallback?.(id);
+    }
+    const id = setTimeout(load, 1500);
+    return () => clearTimeout(id);
+  }, [count]);
+
+  // Self-rescheduling timer: gently crossfades to the next slide every 4s.
+  // Held until every slide is mounted so a crossfade can never land on nothing.
+  React.useEffect(() => {
+    if (count < 2 || paused || mountCount < count) return;
     const id = setTimeout(() => setActive((a) => (a + 1) % count), 4000);
     return () => clearTimeout(id);
-  }, [active, count, paused]);
+  }, [active, count, paused, mountCount]);
 
   // Pause the continuous Ken-Burns zoom while the hero is fully scrolled out of
   // view — sheds GPU/compositor work and battery with no visible change.
@@ -93,7 +116,7 @@ export function Hero({ slides, t }: { slides: HeroSlide[]; t: HeroCopy }) {
         onMouseEnter={() => setPaused(true)}
         onMouseLeave={() => setPaused(false)}
       >
-        {slides.map((s, i) => (
+        {slides.slice(0, mountCount).map((s, i) => (
           <div
             key={s.local + i}
             aria-hidden={i !== active}

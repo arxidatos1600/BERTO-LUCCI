@@ -3,7 +3,7 @@
 import * as React from "react";
 import Link from "next/link";
 import { Minus, Plus, ShoppingBag, Trash2 } from "lucide-react";
-import { formatPrice } from "@/lib/utils";
+import { formatPrice, shippingFor, FREE_SHIPPING_THRESHOLD } from "@/lib/utils";
 import { useCart } from "@/store/cart";
 import { SmartImage } from "./smart-image";
 import { Button } from "./ui/button";
@@ -22,6 +22,10 @@ export function CartDrawer() {
   const subtotal = useCart((s) => s.items.reduce((t, i) => t + i.price * i.quantity, 0));
   const count = items.reduce((n, i) => n + i.quantity, 0);
   const [checkout, setCheckout] = React.useState(false);
+  // Same policy the /cart summary uses. The drawer is where most people check
+  // out, so it has to show what they will actually pay, not just the subtotal.
+  const shipping = shippingFor(subtotal);
+  const total = subtotal + shipping;
 
   return (
     <>
@@ -65,7 +69,7 @@ export function CartDrawer() {
                           {label(item)}
                         </Link>
                         <button
-                          aria-label="Remove item"
+                          aria-label={t.removeAria}
                           onClick={() => removeItem(item.key)}
                           className="-mr-2 inline-flex h-9 w-9 shrink-0 items-center justify-center text-muted-foreground transition-colors hover:text-destructive"
                         >
@@ -79,7 +83,7 @@ export function CartDrawer() {
                       <div className="mt-auto flex items-center justify-between pt-3">
                         <div className="flex items-center border border-border">
                           <button
-                            aria-label="Decrease quantity"
+                            aria-label={t.decreaseQtyAria}
                             className="flex h-8 w-8 items-center justify-center hover:bg-secondary"
                             onClick={() => updateQuantity(item.key, item.quantity - 1)}
                           >
@@ -89,7 +93,7 @@ export function CartDrawer() {
                             {item.quantity}
                           </span>
                           <button
-                            aria-label="Increase quantity"
+                            aria-label={t.increaseQtyAria}
                             className="flex h-8 w-8 items-center justify-center hover:bg-secondary"
                             onClick={() => updateQuantity(item.key, item.quantity + 1)}
                           >
@@ -106,9 +110,25 @@ export function CartDrawer() {
               </div>
 
               <div className="border-t border-border p-6">
-                <div className="flex items-center justify-between">
-                  <span className="eyebrow">{t.subtotal}</span>
-                  <span className="font-serif text-lg">{formatPrice(subtotal)}</span>
+                <dl className="space-y-2 text-sm">
+                  <div className="flex items-center justify-between">
+                    <dt className="eyebrow">{t.subtotal}</dt>
+                    <dd className="tabular-nums">{formatPrice(subtotal)}</dd>
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <dt className="eyebrow">{t.shipping}</dt>
+                    <dd className="tabular-nums">{shipping === 0 ? t.free : formatPrice(shipping)}</dd>
+                  </div>
+                </dl>
+                {shipping > 0 && (
+                  <p className="mt-2 text-xs text-muted-foreground">
+                    {t.freeShipping.replace("{x}", formatPrice(FREE_SHIPPING_THRESHOLD - subtotal))}
+                  </p>
+                )}
+                <Separator className="my-4" />
+                <div className="flex items-baseline justify-between">
+                  <span className="eyebrow">{t.total}</span>
+                  <span className="font-serif text-lg tabular-nums">{formatPrice(total)}</span>
                 </div>
                 <p className="mt-1 text-xs text-muted-foreground">{t.shippingTaxesNote}</p>
                 <div className="mt-4 flex flex-col gap-2">

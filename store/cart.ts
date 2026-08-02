@@ -33,27 +33,41 @@ export const useCart = create<CartState>()(
 
       addItem: (product, variant, quantity = 1) => {
         const key = `${product.id}:${variant.id}`;
-        const items = [...get().items];
-        const existing = items.find((i) => i.key === key);
+        const current = get().items;
+        const existing = current.find((i) => i.key === key);
         if (existing) {
-          existing.quantity += quantity;
-        } else {
-          items.push({
-            key,
-            productId: product.id,
-            handle: product.handle,
-            variantId: variant.id,
-            title: product.title,
-            titleGr: product.titleOriginal,
-            colorName: variant.colorName,
-            size: variant.size,
-            price: variant.price,
-            image: variant.image || product.featuredImage.local,
-            imageSrc: variant.imageSrc || product.featuredImage.src,
-            quantity,
+          // Map to a NEW line object rather than mutating the one already in the
+          // store. The old code did `existing.quantity += quantity` on an object
+          // still referenced by the previous state, so any consumer memoising on
+          // the line item (or a devtools/time-travel snapshot) saw the change
+          // retroactively. It only ever repainted because the array identity
+          // changed; equality-checked selectors were free to skip the update.
+          set({
+            items: current.map((i) =>
+              i.key === key ? { ...i, quantity: i.quantity + quantity } : i
+            ),
           });
+          return;
         }
-        set({ items });
+        set({
+          items: [
+            ...current,
+            {
+              key,
+              productId: product.id,
+              handle: product.handle,
+              variantId: variant.id,
+              title: product.title,
+              titleGr: product.titleOriginal,
+              colorName: variant.colorName,
+              size: variant.size,
+              price: variant.price,
+              image: variant.image || product.featuredImage.local,
+              imageSrc: variant.imageSrc || product.featuredImage.src,
+              quantity,
+            },
+          ],
+        });
       },
 
       removeItem: (key) => set({ items: get().items.filter((i) => i.key !== key) }),

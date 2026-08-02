@@ -10,7 +10,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
       {children}
       <CartDrawer />
       <Toaster
-        position="bottom-right"
+        position="top-center"
         toastOptions={{
           style: {
             borderRadius: "0",

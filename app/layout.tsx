@@ -12,6 +12,8 @@ import { Navbar } from "@/components/navbar";
 import { Footer } from "@/components/footer";
 import { Providers } from "@/components/providers";
 import { LangProvider } from "@/components/lang-provider";
+import { UtilityBar } from "@/components/utility-bar";
+import ChatWidget from "@/components/chat-widget";
 import { getLang } from "@/lib/get-lang";
 import { products } from "@/lib/products";
 import { jsonLdSafe } from "@/lib/utils";
@@ -192,7 +194,7 @@ export default async function RootLayout({
       lang={lang === "gr" ? "el" : "en"}
       className={`${jost.variable} ${cormorant.variable} ${bodoni.variable} ${gfsDidot.variable} ${ebGaramond.variable} ${notoSansEl.variable}`}
     >
-      <body className="flex min-h-screen flex-col font-sans">
+      <body className="flex min-h-screen flex-col pb-14 font-sans md:pb-0">
         <a
           href="#main-content"
           className="sr-only rounded-sm focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:bg-background focus:px-4 focus:py-2 focus:text-foreground focus:outline-none focus:ring-2 focus:ring-ring"
@@ -212,6 +214,8 @@ export default async function RootLayout({
             <Navbar lang={lang} menuImage={menuImage} />
             <main id="main-content" tabIndex={-1} className="flex-1 outline-none">{children}</main>
             <Footer lang={lang} />
+            <UtilityBar />
+            <ChatWidget />
           </Providers>
         </LangProvider>
       </body>

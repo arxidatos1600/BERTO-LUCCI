@@ -384,3 +384,57 @@
 @media (prefers-reduced-motion: reduce) {
   .marquee-track { animation: none; }
 }
+/* Faster pace for the short, many-times-repeated announcement ticker — the
+   base 55s suits the long image runway, not a brisk text crawl. */
+.marquee-track.ticker-track {
+  animation-duration: 26s;
+}
+
+/* ==================== SIZE GUIDE MODAL ===================== */
+/* Caps the dialog height so it always fits the viewport, with an internal
+   scroll region for the tab content. `svh` stays fixed as the mobile browser
+   chrome shows/hides (no shake); the `vh` line above it is the fallback for
+   browsers without `svh` support — an unsupported unit invalidates only that
+   one declaration, so the `vh` line stays in effect for them (cascade order,
+   not a CSS function). */
+.size-guide-content {
+  max-height: 85vh;
+  max-height: 85svh;
+}
+
+/* ===================== SHOP FILTER RAIL ==================== */
+/* Same cascade-fallback trick as the size guide / chat panel below: a browser
+   without `svh` keeps the `vh` line, one with `svh` overrides it. Written as
+   real CSS rather than two Tailwind arbitrary values, because Tailwind does
+   not guarantee which of two same-property utilities lands last in the sheet.
+   Scoped to lg+ to match the sticky rail's own breakpoint — 1024px is iPad
+   portrait, where Safari's collapsing toolbar still moves `100vh`. */
+@media (min-width: 1024px) {
+  .filter-rail {
+    max-height: calc(100vh - 6rem);
+    max-height: calc(100svh - 6rem);
+  }
+}
+
+/* ===================== CHAT WIDGET PANEL ==================== */
+/* Same cascade-fallback trick as the size guide above, plus a hard cap so the
+   floating popover never grows into a full dialog on a tall desktop viewport.
+   Internal content scrolls (see chat-widget.tsx) once it exceeds this.
+   The wrapper (`fixed bottom-20 ... flex-col-reverse`) has no height of its
+   own — only `bottom-*` pins the stack's bottom edge — so on a short
+   viewport the panel could otherwise grow tall enough to push its own top,
+   and the Close button inside it, off the top of the screen. The subtracted
+   term reserves the launcher's own footprint (bottom offset + h-14 + the
+   gap-3 between them) so the panel can never do that. */
+.chat-widget-panel {
+  max-height: min(34rem, calc(85vh - 9.25rem));
+  max-height: min(34rem, calc(85svh - 9.25rem));
+}
+
+@media (min-width: 768px) {
+  .chat-widget-panel {
+    /* Desktop offset is bottom-6 (1.5rem), not bottom-20 (5rem). */
+    max-height: min(34rem, calc(85vh - 5.75rem));
+    max-height: min(34rem, calc(85svh - 5.75rem));
+  }
+}

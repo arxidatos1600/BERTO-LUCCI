@@ -3,7 +3,7 @@
 import * as React from "react";
 import Link from "next/link";
 import { ArrowLeft, Minus, Plus, Trash2, ShoppingBag } from "lucide-react";
-import { formatPrice } from "@/lib/utils";
+import { formatPrice, shippingFor, FREE_SHIPPING_THRESHOLD } from "@/lib/utils";
 import { useCart } from "@/store/cart";
 import { SmartImage } from "@/components/smart-image";
 import { Button } from "@/components/ui/button";
@@ -24,9 +24,8 @@ export default function CartPage() {
   const [mounted, setMounted] = React.useState(false);
   React.useEffect(() => setMounted(true), []);
 
-  // Real Berto Lucci policy: free shipping over €40, otherwise a €3.50 flat rate.
-  const FREE_SHIPPING_THRESHOLD = 40;
-  const shipping = subtotal >= FREE_SHIPPING_THRESHOLD || subtotal === 0 ? 0 : 3.5;
+  // Shipping policy lives in lib/utils so the slide-over bag quotes the same rule.
+  const shipping = shippingFor(subtotal);
   const total = subtotal + shipping;
 
   if (!mounted) {
@@ -109,7 +108,7 @@ export default function CartPage() {
               <div className="flex items-center sm:w-32 sm:justify-center">
                 <div className="flex items-center border border-border">
                   <button
-                    aria-label="Decrease quantity"
+                    aria-label={t.decreaseQtyAria}
                     className="flex h-9 w-9 items-center justify-center hover:bg-secondary"
                     onClick={() => updateQuantity(item.key, item.quantity - 1)}
                   >
@@ -117,7 +116,7 @@ export default function CartPage() {
                   </button>
                   <span className="w-9 text-center text-sm tabular-nums">{item.quantity}</span>
                   <button
-                    aria-label="Increase quantity"
+                    aria-label={t.increaseQtyAria}
                     className="flex h-9 w-9 items-center justify-center hover:bg-secondary"
                     onClick={() => updateQuantity(item.key, item.quantity + 1)}
                   >
@@ -132,7 +131,7 @@ export default function CartPage() {
                   {formatPrice(item.price * item.quantity)}
                 </span>
                 <button
-                  aria-label="Remove item"
+                  aria-label={t.removeAria}
                   onClick={() => removeItem(item.key)}
                   className="text-muted-foreground hover:text-destructive"
                 >

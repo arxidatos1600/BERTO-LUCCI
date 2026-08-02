@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import Link from "next/link";
-import type { Product } from "@/lib/types";
+import type { CardProduct } from "@/lib/card-product";
 import { cn } from "@/lib/utils";
 import { ProductCard } from "./product-card";
 import { useLang } from "./lang-provider";
@@ -12,7 +12,7 @@ import { useLang } from "./lang-provider";
  * (scrolls on mobile, 4-up grid on desktop). `groups` is parallel to the
  * localized tabs in the dictionary; ProductCard handles the cards.
  */
-export function BestSellers({ groups }: { groups: Product[][] }) {
+export function BestSellers({ groups }: { groups: CardProduct[][] }) {
   const { t: dict } = useLang();
   const t = dict.bestSellers;
   const [active, setActive] = React.useState(0);
@@ -39,6 +39,10 @@ export function BestSellers({ groups }: { groups: Product[][] }) {
               <button
                 key={tab.category}
                 onClick={() => setActive(i)}
+                // Same contract as the store-map region tabs: the selected state
+                // is carried by aria-pressed, not by colour alone, so a screen
+                // reader announces which category is currently showing.
+                aria-pressed={i === active}
                 className={cn(
                   "border-b-2 px-4 py-2 text-xs uppercase tracking-luxe transition-colors",
                   i === active

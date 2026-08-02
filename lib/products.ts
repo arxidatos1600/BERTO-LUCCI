@@ -1,7 +1,12 @@
 import type { Product, Facets } from "./types";
-// Imported at build time for server components (home + product pages).
-// The Shop page fetches the same file at runtime for client-side filtering.
-import productsJson from "@/public/data/bertolucci_products.json";
+// Imported at build time for server components (home + product pages). This file
+// lives in `data/`, NOT `public/data/`: anything under public/ is served as a
+// static asset, so the full 7.9 MB catalogue (every variant, price, cost-bearing
+// description and unpublished field) was downloadable at /data/bertolucci_products.json
+// and was shipped in the deployment for no reason. The bundler inlines what the
+// server actually uses, and the browser gets the slim `public/data/shop-list.json`
+// projection instead (see scripts/build-shop-list.mjs).
+import productsJson from "@/data/bertolucci_products.json";
 import facetsJson from "@/public/data/facets.json";
 
 export const products = productsJson as unknown as Product[];

@@ -171,6 +171,7 @@ const en = {
       allRegions: "All",
       selectStore: "View",
       callLabel: "Call",
+      noResults: "No boutique matches that search. Try a city name, a street, or pick a region above.",
       groups: [
         {
           group: "Athens & Attica",
@@ -237,17 +238,17 @@ const en = {
   summer: {
     eyebrow: "New Season · Summer 2026",
     title: "The Summer 2026 Edit",
-    subtitle: "Lightweight tailoring, linen and short-sleeve shirting — the pieces built for the warmer months.",
+    subtitle: "Lightweight tailoring, linen and short-sleeve shirting · the pieces built for the warmer months.",
     cta: "Shop Summer 2026",
   },
   social: {
     eyebrow: "As seen on social",
     title: "@bertoluccimilano",
-    subtitle: "New arrivals, styling notes and behind-the-scenes — live on Instagram and TikTok.",
+    subtitle: "New arrivals, styling notes and behind-the-scenes, live on Instagram and TikTok.",
     instagramCta: "Follow on Instagram",
     tiktokCta: "Watch on TikTok",
     instagramHeading: "On Instagram",
-    tiktokHeading: "On TikTok — press play",
+    tiktokHeading: "On TikTok · press play",
     playLabel: "Play video",
     pauseLabel: "Pause video",
     videoSoon: "Watch this one on TikTok",
@@ -340,6 +341,7 @@ const en = {
     sizeGuide: "Size guide",
     addedToast: "Added to your bag",
     relatedTitle: "You may also like",
+    recentlyViewed: "Recently Viewed",
   },
   cart: {
     loading: "Loading your bag…",
@@ -354,6 +356,11 @@ const en = {
     colTotal: "Total",
     sizeLabel: "Size",
     remove: "Remove",
+    // Accessible names for the icon-only line-item controls. These were hardcoded
+    // English, so the Greek site announced English button names.
+    removeAria: "Remove item",
+    decreaseQtyAria: "Decrease quantity",
+    increaseQtyAria: "Increase quantity",
     orderSummary: "Order Summary",
     subtotal: "Subtotal",
     shipping: "Shipping",
@@ -372,6 +379,95 @@ const en = {
     checkoutSoonDesc2: " for secure payment, shipping and order management. Your bag total is ",
     keepShopping: "Keep shopping",
     simulateOrder: "Simulate order & clear bag",
+  },
+  sizeGuide: {
+    title: "Size Guide",
+    tabs: {
+      chart: "Size Chart",
+      calculator: "Size Calculator",
+    },
+    chart: {
+      title: "General Fit Guide",
+      disclaimer:
+        "Standard menswear proportions, for general reference. Garments may vary slightly by cut and fabric.",
+      howToMeasureTitle: "How to Measure",
+      howToMeasure: [
+        {
+          title: "Chest",
+          text: "Wrap the tape around the fullest part of your chest, just under the arms. Keep it level and relaxed, not pulled tight.",
+        },
+        {
+          title: "Length",
+          text: "From the highest point of the shoulder, next to the neck, run the tape straight down to where you want the hem to sit.",
+        },
+        {
+          title: "Shoulder",
+          text: "Across the back, from one shoulder seam to the other, keeping the tape straight and level.",
+        },
+      ],
+    },
+    calculator: {
+      chestLabel: "Chest",
+      chestHelper: "Enter your chest measurement in centimetres.",
+      chestPlaceholder: "e.g. 100",
+      fitTitle: "Your Fit Preference",
+      fitQuestion: "How do you want this to fit?",
+      fitTightLabel: "Tight",
+      fitTrueToSizeLabel: "True to size",
+      fitLooseLabel: "Loose",
+      resultTitle: "We recommend size {size}",
+      substitutedNote: "Closest available size · your exact match isn't currently stocked.",
+      seeOtherSizes: "See other sizes",
+      startOver: "Start over",
+      continueCta: "Continue",
+      continueShopping: "Continue shopping",
+    },
+  },
+  chat: {
+    greeting: "Hello, and welcome. Ask about an order, sizing, or anything else.",
+    quickReplies: {
+      trackOrder: "Track my order",
+      sizingHelp: "Sizing help",
+      shippingReturns: "Shipping & returns",
+    },
+    inputPlaceholder: "Type your question…",
+    reachNote:
+      "Your message reaches the Berto Lucci team directly. We reply Monday to Friday, 09:00 to 17:00.",
+    sentConfirmation: "Thank you. Your message has been sent, and our team will be in touch.",
+    openLabel: "Open chat",
+    closeLabel: "Close chat",
+    sendLabel: "Send message",
+  },
+  bundle: {
+    title: "Complete the Look",
+    total: "Total",
+    addToBag: "Add Set to Bag",
+  },
+  reviews: {
+    title: "Customer Reviews",
+    count: {
+      one: "{count} Review",
+      other: "{count} Reviews",
+    },
+    writeReview: "Write a Review",
+    nameLabel: "Name",
+    nameHelper: "Displayed publicly alongside your review.",
+    ratingLabel: "Rating",
+    titleLabel: "Review Title (Optional)",
+    bodyLabel: "Your Review",
+    submit: "Submit Review",
+    submitted: "Thank you. Your review has been submitted.",
+    emptyState: "No reviews yet. Be the first to share your experience with this piece.",
+  },
+  withdrawalForm: {
+    linkLabel: "Download Withdrawal Form (PDF)",
+    context:
+      "The standard form for notifying us of your decision to withdraw from a purchase, as set out in our Returns & Exchanges policy.",
+  },
+  utilityBar: {
+    callUs: "Call us",
+    language: "Language",
+    followUs: "Follow us",
   },
 };
 
@@ -539,6 +635,7 @@ const gr: Dictionary = {
       allRegions: "Όλα",
       selectStore: "Προβολή",
       callLabel: "Κλήση",
+      noResults: "Δεν βρέθηκε κατάστημα με αυτά τα κριτήρια. Δοκιμάστε όνομα πόλης, οδό ή επιλέξτε περιοχή παραπάνω.",
       groups: [
         {
           group: "Αθήνα & Αττική",
@@ -605,17 +702,17 @@ const gr: Dictionary = {
   summer: {
     eyebrow: "Νέα Σεζόν · Καλοκαίρι 2026",
     title: "Η Επιλογή Καλοκαίρι 2026",
-    subtitle: "Ελαφριά ραπτική, λινά και κοντομάνικα πουκάμισα — τα κομμάτια για τις πιο ζεστές μέρες.",
+    subtitle: "Ελαφριά ραπτική, λινά και κοντομάνικα πουκάμισα · τα κομμάτια για τις πιο ζεστές μέρες.",
     cta: "Αγορά Καλοκαίρι 2026",
   },
   social: {
     eyebrow: "Στα social",
     title: "@bertoluccimilano",
-    subtitle: "Νέες παραλαβές, styling και στιγμές από τα παρασκήνια — live στο Instagram και το TikTok.",
+    subtitle: "Νέες παραλαβές, styling και στιγμές από τα παρασκήνια, live στο Instagram και το TikTok.",
     instagramCta: "Ακολουθήστε στο Instagram",
     tiktokCta: "Δείτε στο TikTok",
     instagramHeading: "Στο Instagram",
-    tiktokHeading: "Στο TikTok — πατήστε play",
+    tiktokHeading: "Στο TikTok · πατήστε play",
     playLabel: "Αναπαραγωγή βίντεο",
     pauseLabel: "Παύση βίντεο",
     videoSoon: "Δείτε το στο TikTok",
@@ -708,6 +805,7 @@ const gr: Dictionary = {
     sizeGuide: "Οδηγός μεγεθών",
     addedToast: "Προστέθηκε στην τσάντα σας",
     relatedTitle: "Ίσως σας αρέσουν",
+    recentlyViewed: "Είδατε Πρόσφατα",
   },
   cart: {
     loading: "Φόρτωση της τσάντας σας…",
@@ -722,6 +820,9 @@ const gr: Dictionary = {
     colTotal: "Σύνολο",
     sizeLabel: "Μέγεθος",
     remove: "Αφαίρεση",
+    removeAria: "Αφαίρεση προϊόντος",
+    decreaseQtyAria: "Μείωση ποσότητας",
+    increaseQtyAria: "Αύξηση ποσότητας",
     orderSummary: "Σύνοψη Παραγγελίας",
     subtotal: "Υποσύνολο",
     shipping: "Αποστολή",
@@ -740,6 +841,95 @@ const gr: Dictionary = {
     checkoutSoonDesc2: " για ασφαλή πληρωμή, αποστολή και διαχείριση παραγγελιών. Το σύνολο της τσάντας σας είναι ",
     keepShopping: "Συνέχεια αγορών",
     simulateOrder: "Προσομοίωση παραγγελίας & άδειασμα",
+  },
+  sizeGuide: {
+    title: "Μεγεθολόγιο",
+    tabs: {
+      chart: "Πίνακας Μεγεθών",
+      calculator: "Υπολογιστής Μεγέθους",
+    },
+    chart: {
+      title: "Γενικός Οδηγός Μεγεθών",
+      disclaimer:
+        "Τυπικές αναλογίες ανδρικής ένδυσης, ενδεικτικά. Τα ρούχα ενδέχεται να διαφέρουν ελαφρώς ανάλογα με τη γραμμή και το ύφασμα.",
+      howToMeasureTitle: "Πώς να Μετρήσετε",
+      howToMeasure: [
+        {
+          title: "Στήθος",
+          text: "Τυλίξτε τη μεζούρα γύρω από το φαρδύτερο σημείο του στήθους, ακριβώς κάτω από τις μασχάλες. Κρατήστε την οριζόντια και χαλαρή, χωρίς να τη σφίξετε.",
+        },
+        {
+          title: "Μήκος",
+          text: "Από το ψηλότερο σημείο του ώμου, δίπλα στον λαιμό, τραβήξτε τη μεζούρα κάθετα προς τα κάτω μέχρι το ύψος που θέλετε να φτάνει το ρούχο.",
+        },
+        {
+          title: "Ώμοι",
+          text: "Οριζόντια στην πλάτη, από τη μία ραφή ώμου έως την άλλη, με τη μεζούρα τεντωμένη και ίσια.",
+        },
+      ],
+    },
+    calculator: {
+      chestLabel: "Στήθος",
+      chestHelper: "Συμπληρώστε την περιφέρεια στήθους σας σε εκατοστά.",
+      chestPlaceholder: "π.χ. 100",
+      fitTitle: "Προτίμηση Εφαρμογής",
+      fitQuestion: "Πώς θέλετε να σας εφαρμόζει;",
+      fitTightLabel: "Εφαρμοστό",
+      fitTrueToSizeLabel: "Κανονικό",
+      fitLooseLabel: "Άνετο",
+      resultTitle: "Σας προτείνουμε το μέγεθος {size}",
+      substitutedNote: "Πλησιέστερο διαθέσιμο μέγεθος · η ακριβής αντιστοίχιση δεν είναι προσωρινά σε απόθεμα.",
+      seeOtherSizes: "Δείτε άλλα μεγέθη",
+      startOver: "Ξεκινήστε ξανά",
+      continueCta: "Συνέχεια",
+      continueShopping: "Συνέχεια αγορών",
+    },
+  },
+  chat: {
+    greeting: "Γεια σας, καλωσορίσατε. Ρωτήστε μας για μια παραγγελία, τα μεγέθη ή οτιδήποτε άλλο.",
+    quickReplies: {
+      trackOrder: "Η Παραγγελία μου",
+      sizingHelp: "Βοήθεια Μεγεθών",
+      shippingReturns: "Αποστολή & Επιστροφές",
+    },
+    inputPlaceholder: "Γράψτε την ερώτησή σας…",
+    reachNote:
+      "Τα μηνύματά σας φτάνουν απευθείας στην ομάδα Berto Lucci. Απαντάμε Δευτέρα έως Παρασκευή, 09:00 έως 17:00.",
+    sentConfirmation: "Ευχαριστούμε. Το μήνυμά σας στάλθηκε και η ομάδα μας θα επικοινωνήσει μαζί σας.",
+    openLabel: "Άνοιγμα συνομιλίας",
+    closeLabel: "Κλείσιμο συνομιλίας",
+    sendLabel: "Αποστολή μηνύματος",
+  },
+  bundle: {
+    title: "Ολοκληρώστε το Σύνολο",
+    total: "Σύνολο",
+    addToBag: "Προσθήκη Συνόλου στην Τσάντα",
+  },
+  reviews: {
+    title: "Αξιολογήσεις Πελατών",
+    count: {
+      one: "{count} Αξιολόγηση",
+      other: "{count} Αξιολογήσεις",
+    },
+    writeReview: "Σύνταξη Αξιολόγησης",
+    nameLabel: "Όνομα",
+    nameHelper: "Εμφανίζεται δημόσια μαζί με την αξιολόγησή σας.",
+    ratingLabel: "Βαθμολογία",
+    titleLabel: "Τίτλος Αξιολόγησης (Προαιρετικό)",
+    bodyLabel: "Η Αξιολόγησή σας",
+    submit: "Υποβολή Αξιολόγησης",
+    submitted: "Ευχαριστούμε. Η αξιολόγησή σας υποβλήθηκε.",
+    emptyState: "Δεν υπάρχουν ακόμη αξιολογήσεις. Μοιραστείτε πρώτοι την εμπειρία σας με αυτό το κομμάτι.",
+  },
+  withdrawalForm: {
+    linkLabel: "Λήψη Εντύπου Υπαναχώρησης (PDF)",
+    context:
+      "Το τυποποιημένο έντυπο για τη γνωστοποίηση της απόφασής σας να υπαναχωρήσετε από μια αγορά, όπως περιγράφεται στην ενότητα Επιστροφές & Αλλαγές.",
+  },
+  utilityBar: {
+    callUs: "Καλέστε μας",
+    language: "Γλώσσα",
+    followUs: "Ακολουθήστε μας",
   },
 };
 

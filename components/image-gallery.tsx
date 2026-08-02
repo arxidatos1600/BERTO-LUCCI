@@ -43,7 +43,7 @@ export function ImageGallery({ images, activeIndex, onSelect }: ImageGalleryProp
   }
 
   return (
-    <div className="flex flex-col-reverse gap-4 lg:flex-row">
+    <div className="min-w-0 flex flex-col-reverse gap-4 lg:flex-row">
       {/* Thumbnails */}
       <div className="thin-scroll flex gap-3 overflow-x-auto lg:flex-col lg:overflow-visible">
         {images.map((img, i) => (

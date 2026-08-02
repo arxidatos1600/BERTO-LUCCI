@@ -111,10 +111,21 @@ export function Navbar({
   return (
     <>
       <header className="relative z-30">
-      {/* ===== Announcement bar — brushed silver, distinct from the black bar ===== */}
-      <div className="hidden border-b border-black/10 bg-[linear-gradient(100deg,#b6b9bf_0%,#eef0f3_34%,#d0d3d9_60%,#f3f5f8_100%)] text-[#1b1b1e] md:block">
-        <div className="container flex h-9 items-center justify-center text-[11px] font-semibold uppercase tracking-luxe [text-shadow:0_1px_0_rgba(255,255,255,0.55)]">
-          {t.announce}
+      {/* ===== Announcement bar — brushed silver, auto-scrolling ticker.
+          Reuses the existing image-runway marquee CSS (.marquee-track/-mask,
+          globals.css) since it's already a generic flex+translateX(-50%) loop —
+          duplicate the message enough times to read as continuous, not gappy. */}
+      <div
+        aria-hidden="true"
+        className="marquee-mask overflow-hidden border-b border-black/10 bg-[linear-gradient(100deg,#b6b9bf_0%,#eef0f3_34%,#d0d3d9_60%,#f3f5f8_100%)] text-[#1b1b1e]"
+      >
+        <div className="marquee-track ticker-track h-8 items-center text-[11px] font-semibold uppercase tracking-luxe [text-shadow:0_1px_0_rgba(255,255,255,0.55)] md:h-9">
+          {Array.from({ length: 8 }).map((_, i) => (
+            <span key={i} className="flex shrink-0 items-center gap-3 pr-10">
+              {t.announce}
+              <span aria-hidden className="h-1 w-1 rounded-full bg-current opacity-50" />
+            </span>
+          ))}
         </div>
       </div>
 
@@ -137,7 +148,7 @@ export function Navbar({
 
           {/* Center — big logo */}
           <div className="flex justify-center">
-            <Link href="/" aria-label="Berto Lucci Milano — home">
+            <Link href="/" aria-label="Berto Lucci Milano, home">
               <img
                 src="/brand/logo_full.svg"
                 alt="Berto Lucci Milano"
@@ -191,7 +202,10 @@ export function Navbar({
       {/* ===== Sticky bar (body-level sibling so it sticks across the whole page) ===== */}
       <div
         className={cn(
-          "sticky top-0 z-40 border-b bg-background/95 backdrop-blur transition-shadow",
+          // backdrop-blur on a bar pinned via `sticky` repaints on every frame
+          // while the mobile browser chrome animates on scroll — kill the live
+          // blur on touch (solid background instead); desktop keeps the glass.
+          "sticky top-0 z-40 border-b bg-background/95 backdrop-blur transition-shadow [@media(hover:none)]:bg-background [@media(hover:none)]:backdrop-blur-none",
           scrolled ? "border-border shadow-sm" : "border-border"
         )}
       >
@@ -199,7 +213,7 @@ export function Navbar({
           {/* --- Mobile: hamburger | logo | cart --- */}
           <div className="flex w-full items-center justify-between md:hidden">
             <MobileMenu lang={lang} />
-            <Link href="/" aria-label="Berto Lucci Milano — home" className="absolute left-1/2 -translate-x-1/2">
+            <Link href="/" aria-label="Berto Lucci Milano, home" className="absolute left-1/2 -translate-x-1/2">
               <img src="/brand/logo_full.svg" alt="Berto Lucci Milano" className="h-14 w-auto" width={228} height={122} />
             </Link>
             <div className="flex items-center">
@@ -220,7 +234,7 @@ export function Navbar({
             <div className="flex w-24 items-center lg:w-40">
               <Link
                 href="/"
-                aria-label="Berto Lucci Milano — home"
+                aria-label="Berto Lucci Milano, home"
                 // Hidden by opacity before scroll, so it must leave the tab order
                 // too — otherwise keyboard users land on an invisible target with
                 // no focus indicator (WCAG 2.4.7).
@@ -272,7 +286,7 @@ export function Navbar({
 
         {/* ===== Search drop-down (mobile + desktop) ===== */}
         {searchOpen && (
-          <div className="absolute inset-x-0 top-full border-b border-border bg-background/98 shadow-[0_24px_48px_-28px_hsl(var(--navy)/0.4)] backdrop-blur">
+          <div className="absolute inset-x-0 top-full border-b border-border bg-background/98 shadow-[0_24px_48px_-28px_hsl(var(--navy)/0.4)] backdrop-blur [@media(hover:none)]:bg-background [@media(hover:none)]:backdrop-blur-none">
             <form onSubmit={submitSearch} className="container flex items-center gap-2 py-3">
               <div className="relative flex-1">
                 <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />

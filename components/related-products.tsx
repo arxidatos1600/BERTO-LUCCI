@@ -1,9 +1,9 @@
-import type { Product } from "@/lib/types";
+import type { CardProduct } from "@/lib/card-product";
 import { ProductCard } from "./product-card";
 import { getLang } from "@/lib/get-lang";
 import { getDictionary } from "@/lib/i18n";
 
-export async function RelatedProducts({ products }: { products: Product[] }) {
+export async function RelatedProducts({ products }: { products: CardProduct[] }) {
   if (!products.length) return null;
   const t = getDictionary(await getLang()).product;
   return (

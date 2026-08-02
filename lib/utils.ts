@@ -15,6 +15,20 @@ export function formatPrice(value: number): string {
   }).format(value);
 }
 
+/**
+ * Real Berto Lucci shipping policy: free over €40, otherwise a €3.50 flat rate.
+ * Lives here because BOTH the /cart summary and the slide-over bag quote it —
+ * when only /cart knew the rule, the drawer (where most people actually check
+ * out) silently showed a subtotal as if it were the total.
+ */
+export const FREE_SHIPPING_THRESHOLD = 40;
+export const FLAT_SHIPPING_RATE = 3.5;
+
+/** Shipping cost for a given subtotal. An empty bag ships nothing. */
+export function shippingFor(subtotal: number): number {
+  return subtotal >= FREE_SHIPPING_THRESHOLD || subtotal === 0 ? 0 : FLAT_SHIPPING_RATE;
+}
+
 /** Percentage discount between an original and a sale price. */
 export function discountPercent(price: number, compareAt?: number | null): number {
   if (!compareAt || compareAt <= price) return 0;

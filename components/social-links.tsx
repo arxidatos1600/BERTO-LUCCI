@@ -61,7 +61,7 @@ export function SocialLinks({
           rel="noreferrer"
           aria-label={s.label}
           className={cn(
-            "group inline-flex items-center justify-center transition-all duration-300",
+            "group relative inline-flex items-center justify-center transition-all duration-300",
             variant === "circle"
               ? cn(
                   "h-11 w-11 rounded-full border hover:-translate-y-0.5",
@@ -70,6 +70,10 @@ export function SocialLinks({
                     : "border-border text-foreground/70 hover:border-accent hover:text-accent hover:bg-accent/5"
                 )
               : cn(
+                  // Invisible hit-area extension so a small glyph still meets the
+                  // WCAG 2.5.8 24px target minimum, same technique as the colour
+                  // swatches in product-card.tsx.
+                  "before:absolute before:-inset-1.5 before:content-['']",
                   tone === "light"
                     ? "text-[hsl(var(--cream)/0.8)] hover:text-[hsl(var(--camel-light))]"
                     : "text-foreground/75 hover:text-accent hover:-translate-y-0.5"

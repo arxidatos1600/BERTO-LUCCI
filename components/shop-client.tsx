@@ -2,7 +2,8 @@
 
 import * as React from "react";
 import { SlidersHorizontal, ChevronLeft, ChevronRight } from "lucide-react";
-import type { Facets, Product } from "@/lib/types";
+import type { Facets } from "@/lib/types";
+import type { CardProduct } from "@/lib/card-product";
 import { ProductCard } from "./product-card";
 import { Filters, type FilterState } from "./filters";
 import { Button } from "./ui/button";
@@ -75,7 +76,7 @@ export function ShopClient({
     { value: "price-desc", label: t.sortPriceDesc },
     { value: "name-asc", label: t.sortNameAsc },
   ];
-  const [products, setProducts] = React.useState<Product[] | null>(null);
+  const [products, setProducts] = React.useState<CardProduct[] | null>(null);
   const [facets, setFacets] = React.useState<Facets | null>(null);
   const [filters, setFilters] = React.useState<FilterState | null>(null);
   const [sort, setSort] = React.useState<SortKey>("featured");
@@ -89,7 +90,7 @@ export function ShopClient({
     Promise.all([
       fetch("/data/shop-list.json").then((r) => r.json()),
       fetch("/data/facets.json").then((r) => r.json()),
-    ]).then(([p, f]: [Product[], Facets]) => {
+    ]).then(([p, f]: [CardProduct[], Facets]) => {
       if (!active) return;
       setProducts(p);
       setFacets(f);
@@ -140,7 +141,7 @@ export function ShopClient({
 
   const { filtered, viewFacets } = React.useMemo(() => {
     if (!products || !filters || !facets) {
-      return { filtered: [] as Product[], viewFacets: facets };
+      return { filtered: [] as CardProduct[], viewFacets: facets };
     }
     const q = filters.search.trim().toLowerCase();
 

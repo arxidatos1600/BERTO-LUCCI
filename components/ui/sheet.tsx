@@ -17,7 +17,11 @@ const SheetOverlay = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <SheetPrimitive.Overlay
     className={cn(
-      "fixed inset-0 z-50 bg-black/50 backdrop-blur-sm data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0",
+      // Same touch guard as the Dialog overlay and the sticky navbar: a fixed
+      // backdrop-filter forces a full repaint every frame the mobile browser
+      // chrome animates. This overlay backs the cart drawer, mobile menu and
+      // filter sheet, so it's the highest-traffic instance of that cost.
+      "fixed inset-0 z-50 bg-black/50 backdrop-blur-sm data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 [@media(hover:none)]:bg-black/60 [@media(hover:none)]:backdrop-blur-none",
       className
     )}
     {...props}

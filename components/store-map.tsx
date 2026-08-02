@@ -20,6 +20,8 @@ export interface StoresCopy {
   allRegions: string;
   selectStore: string;
   callLabel: string;
+  /** Shown when the search / region filter matches no boutique. */
+  noResults: string;
 }
 
 interface Store {
@@ -87,8 +89,12 @@ export function StoreMap({ t }: { t: StoresCopy }) {
     <div className="grid overflow-hidden rounded-sm border border-border bg-card lg:grid-cols-[1.15fr_0.85fr]">
       {/* ---- Live map + selected store card ---- */}
       <div className="relative min-h-[360px] lg:min-h-[560px]">
+        {/* No `key` here on purpose. Keying on the selection tore the iframe out
+            of the DOM and built a new one on every boutique click, which meant a
+            cold Google Maps bootstrap (fresh document, scripts, tiles) each time.
+            Updating `src` in place navigates the SAME iframe, so the embed is
+            fetched once and only the map location changes. */}
         <iframe
-          key={selected.city + selected.address}
           title={`${selected.city} · ${selected.address}`}
           src={mapSrc(selected)}
           loading="lazy"
@@ -143,6 +149,7 @@ export function StoreMap({ t }: { t: StoresCopy }) {
             <button
               key={r}
               onClick={() => setRegion(r)}
+              aria-pressed={region === r}
               className={cn(
                 "rounded-full px-3 py-1.5 text-[11px] uppercase tracking-luxe transition-colors",
                 region === r
@@ -163,6 +170,7 @@ export function StoreMap({ t }: { t: StoresCopy }) {
               value={query}
               onChange={(e) => setQuery(e.target.value)}
               placeholder={t.searchPlaceholder}
+              aria-label={t.searchPlaceholder}
               className="h-10 w-full border border-input bg-background pl-9 pr-3 text-sm focus:outline-none focus:ring-1 focus:ring-ring"
             />
           </div>
@@ -170,6 +178,11 @@ export function StoreMap({ t }: { t: StoresCopy }) {
 
         {/* List */}
         <div className="thin-scroll max-h-[300px] overflow-y-auto lg:max-h-[400px]">
+          {filtered.length === 0 && (
+            <p role="status" className="px-4 py-10 text-center text-sm text-muted-foreground">
+              {t.noResults}
+            </p>
+          )}
           {filtered.map((s) => {
             const active = s.city === selected.city && s.address === selected.address;
             return (

@@ -8,10 +8,29 @@ import { PaymentLogos } from "./payment-logos";
 // Real Berto Lucci storefront photos for the parallaxing boutique band — led by
 // the full exterior, each positioned so the shopfront + BERTO LUCCI signage stays
 // in frame so it reads clearly as the stores seen from the street.
+// `widths` lists the pre-generated WebP/JPEG rungs (scripts have written
+// `<base>-<w>.webp` and `<base>-<w>.jpg` into public/stores). Each list stops at
+// the source width — store-window-3 is a 1050px-wide portrait, so there is no
+// 1280/1600 rung to serve and upscaling would only cost bytes.
 const STORE_PHOTOS = [
-  { src: "/stores/store-exterior.jpg", alt: "Berto Lucci storefront on the street at night", pos: "object-[center_30%]" },
-  { src: "/stores/store-window-1.jpg", alt: "Berto Lucci shop window from the street", pos: "object-[center_22%]" },
-  { src: "/stores/store-window-3.jpg", alt: "Berto Lucci boutique window from the street", pos: "object-[center_28%]" },
+  {
+    base: "/stores/store-exterior",
+    widths: [480, 768, 1024, 1280, 1400],
+    alt: "Berto Lucci storefront on the street at night",
+    pos: "object-[center_30%]",
+  },
+  {
+    base: "/stores/store-window-1",
+    widths: [480, 768, 1024, 1280, 1400],
+    alt: "Berto Lucci shop window from the street",
+    pos: "object-[center_22%]",
+  },
+  {
+    base: "/stores/store-window-3",
+    widths: [480, 768, 1024, 1050],
+    alt: "Berto Lucci boutique window from the street",
+    pos: "object-[center_28%]",
+  },
 ];
 
 export function Footer({ lang }: { lang: Lang }) {
@@ -65,7 +84,7 @@ export function Footer({ lang }: { lang: Lang }) {
       <div className="container py-16">
         {/* Centered brand header */}
         <div className="mb-14 flex flex-col items-center border-b border-[hsl(var(--navy-700))] pb-12 text-center">
-          <Link href="/" aria-label="Berto Lucci Milano — home">
+          <Link href="/" aria-label="Berto Lucci Milano, home">
             <img
               src="/brand/logo_full.svg"
               alt="Berto Lucci Milano"

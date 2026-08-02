@@ -1,9 +1,10 @@
 /**
  * Generate public/data/shop-list.json — a slim projection of the full
- * bertolucci_products.json containing ONLY the fields the client-side shop grid
- * and filters need (card + facet data). The full file (~7.6 MB, with bodyHtml +
- * every variant + every image) is never shipped to the browser; product detail
- * pages read the full file server-side at build time instead.
+ * data/bertolucci_products.json containing ONLY the fields the client-side shop
+ * grid and filters need (card + facet data). The full file (~7.9 MB, with
+ * bodyHtml + every variant + every image) is never shipped to the browser and is
+ * not served as a static asset; product detail pages read it server-side at
+ * build time instead.
  *
  * Run automatically via the `prebuild` npm script, or manually:
  *   node scripts/build-shop-list.mjs
@@ -13,7 +14,8 @@ import { dirname, join } from "path";
 import { fileURLToPath } from "url";
 
 const root = join(dirname(fileURLToPath(import.meta.url)), "..");
-const SRC = join(root, "public/data/bertolucci_products.json");
+// Source lives OUTSIDE public/ on purpose — see the note in lib/products.ts.
+const SRC = join(root, "data/bertolucci_products.json");
 const OUT = join(root, "public/data/shop-list.json");
 
 const products = JSON.parse(readFileSync(SRC, "utf8"));

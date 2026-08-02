@@ -33,7 +33,7 @@ export function LangToggle({ lang, className }: { lang: Lang; className?: string
         onClick={() => set("en")}
         aria-pressed={lang === "en"}
         className={cn(
-          "transition-colors",
+          "inline-flex min-h-6 items-center px-1.5 transition-colors",
           lang === "en" ? "text-accent" : "text-foreground/70 hover:text-foreground"
         )}
       >
@@ -45,7 +45,7 @@ export function LangToggle({ lang, className }: { lang: Lang; className?: string
         onClick={() => set("gr")}
         aria-pressed={lang === "gr"}
         className={cn(
-          "transition-colors",
+          "inline-flex min-h-6 items-center px-1.5 transition-colors",
           lang === "gr" ? "text-accent" : "text-foreground/70 hover:text-foreground"
         )}
       >

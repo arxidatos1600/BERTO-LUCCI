@@ -45,6 +45,26 @@ const asFormat = (jpg: string, ext: "webp" | "avif") =>
  */
 const USE_CDN = process.env.NEXT_PUBLIC_IMG_CDN !== "0";
 
+/**
+ * Rungs offered to the browser in CDN mode.
+ *
+ * The old ladder started at 640w, which was the smallest thing on offer for a
+ * PDP thumbnail that needs ~193 device px and for a mobile product card that
+ * needs ~430 — so the browser correctly picked 640w and we shipped four to
+ * eleven times the pixels actually painted. The measured needs across the site
+ * cluster at roughly 190 / 390-480 / 580 / 765 / 940-1110, which is what these
+ * rungs bracket. Only 240, 480 and 900 are new; 640/1200/1550 are unchanged.
+ *
+ * DEPLOY NOTE: Shopify generates a resized variant lazily. The FIRST request for
+ * a width that has never been asked for takes ~479 ms while the CDN renders it,
+ * then it is edge-cached like any other asset. Three new widths across the
+ * catalogue therefore means a one-off warm-up cost on the first visitor to hit
+ * each image at each new width, not a recurring one. Plan for it (a crawl of
+ * /shop + the top PDPs after deploy warms the common ones), and do not read the
+ * first post-deploy field measurement as a regression.
+ */
+const CDN_RUNGS = [240, 480, 640, 900, 1200, 1550] as const;
+
 /** Shopify sizes via a `_WIDTHx` suffix on the filename, before the query. */
 function cdnResize(url: string, width: number): string {
   const [base, query] = url.split("?");
@@ -75,7 +95,7 @@ export function SmartImage({
   const cdnMode = USE_CDN && !!fallback;
   const primarySrc = cdnMode ? fallback! : local;
   const initialSrcSet = cdnMode
-    ? `${cdnResize(fallback!, 640)} 640w, ${cdnResize(fallback!, 1200)} 1200w, ${cdnResize(fallback!, 1550)} 1550w`
+    ? CDN_RUNGS.map((w) => `${cdnResize(fallback!, w)} ${w}w`).join(", ")
     : card
       ? `${card} 640w, ${local} 1200w`
       : undefined;

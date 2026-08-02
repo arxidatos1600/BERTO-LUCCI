@@ -4,6 +4,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowRight, Truck, RefreshCw, ShieldCheck, Sparkles } from "lucide-react";
 import { products, getFeatured, getOutlet, getCategoryHighlights } from "@/lib/products";
+import { toCardProduct, toCardProducts } from "@/lib/card-product";
 import { ProductCard } from "@/components/product-card";
 import { SmartImage } from "@/components/smart-image";
 import { Hero, type HeroSlide } from "@/components/hero";
@@ -25,9 +26,22 @@ export default async function HomePage() {
   const lang = await getLang();
   const dict = getDictionary(lang);
   const t = dict.home;
-  const featured = getFeatured(8);
-  const outlet = getOutlet(4);
-  const categories = getCategoryHighlights(6);
+  // NOTE: every list that ends up inside a <ProductCard> is projected through
+  // `toCardProduct` before it crosses the server/client boundary. A full
+  // `Product` carries bodyHtml and every variant, and this page hands ~50 of
+  // them to client components — all of which get serialised into the RSC payload
+  // embedded in the HTML. The projection keeps that markup to what actually
+  // paints. `products` (the full set) stays server-side for the picking logic.
+  const featuredFull = getFeatured(8);
+  const featured = toCardProducts(featuredFull);
+  const outlet = toCardProducts(getOutlet(4));
+  // The showcase only paints one photo per category, so pass the two image URLs
+  // rather than the whole product (which would otherwise cross into SmartImage).
+  const categories = getCategoryHighlights(6).map(({ category, product }) => ({
+    category,
+    local: product.images[0].local,
+    src: product.images[0].src,
+  }));
 
   // Curate strong, model-led editorial shots for the rotating hero, padded from
   // featured so several slides are always available. (Data flow unchanged — the
@@ -69,7 +83,7 @@ export default async function HomePage() {
   const storyProduct =
     products.find((p) => ["Coats", "Blazers"].includes(p.category) && p.images[0]) ??
     products.find((p) => p.category === "Suits" && p.images[0]) ??
-    featured[0];
+    featuredFull[0];
   const storyImage = {
     local: storyProduct.images[0].local,
     fallback: storyProduct.images[0].src,
@@ -78,18 +92,18 @@ export default async function HomePage() {
 
   // Tabbed best-sellers — a product set per localized tab category.
   const bestSellersGroups = dict.bestSellers.tabs.map((tab) =>
-    products.filter((p) => p.category === tab.category && p.images[0]).slice(0, 8)
+    toCardProducts(products.filter((p) => p.category === tab.category && p.images[0]).slice(0, 8))
   );
 
   // A strong editorial shot for the SS26 lookbook banner.
   const lookImg =
     products.find((p) => ["Coats", "Leather Jackets", "Suits"].includes(p.category) && p.images.length > 1) ??
-    featured[0];
+    featuredFull[0];
 
   // A texture-rich look for the Cloth & Craft feature.
   const editorial =
     products.find((p) => ["Knitwear", "Overshirts", "Printed Shirts"].includes(p.category) && p.images[0]) ??
-    featured[1];
+    featuredFull[1];
 
   // Summer-season looks for the changing parallax banner — prefer model-led
   // shots (>1 image) from warm-weather categories, one per category for variety.
@@ -245,7 +259,7 @@ export default async function HomePage() {
             <div className="mx-auto mt-5 h-px w-16 bg-accent/70" />
           </div>
           <div className="grid grid-cols-2 gap-4 md:grid-cols-3">
-            {categories.map(({ category, product }) => (
+            {categories.map(({ category, local, src }) => (
               <Link
                 key={category}
                 href={`/shop?category=${encodeURIComponent(category)}`}
@@ -253,8 +267,8 @@ export default async function HomePage() {
               >
                 <div className="parallax-inner">
                   <SmartImage
-                    local={product.images[0].local}
-                    fallback={product.images[0].src}
+                    local={local}
+                    fallback={src}
                     alt={category}
                     sizes="(max-width: 768px) 50vw, 33vw"
                     className="h-full w-full object-cover"

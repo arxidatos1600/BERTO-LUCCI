@@ -67,9 +67,15 @@ export function LoginForm() {
           </div>
         </label>
 
-        <label className="block">
+        {/* NOT a wrapping <label>: a <button> is itself a labelable element, so
+            an implicit label containing both the "forgot password" button and
+            the input binds to the BUTTON — leaving the password field with no
+            accessible name. Explicit htmlFor/id, button outside the label. */}
+        <div className="block">
           <div className="mb-1.5 flex items-center justify-between">
-            <span className="text-xs uppercase tracking-luxe text-navy">{t.passwordLabel}</span>
+            <label htmlFor="bl-password" className="text-xs uppercase tracking-luxe text-navy">
+              {t.passwordLabel}
+            </label>
             <button type="button" onClick={() => toast(t.demoNote)} className="text-xs text-muted-foreground underline-offset-2 hover:text-accent hover:underline">
               {t.forgot}
             </button>
@@ -77,7 +83,9 @@ export function LoginForm() {
           <div className="relative">
             <Lock className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
             <input
+              id="bl-password"
               type="password"
+              required
               autoComplete="current-password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
@@ -85,7 +93,7 @@ export function LoginForm() {
               className="h-12 w-full border border-input bg-card pl-10 pr-3 text-sm focus:border-accent focus:outline-none focus:ring-1 focus:ring-ring"
             />
           </div>
-        </label>
+        </div>
 
         <Button type="submit" size="lg" variant="accent" className="btn-sheen w-full">
           {t.signIn} <ArrowRight className="h-4 w-4" />

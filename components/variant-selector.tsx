@@ -1,8 +1,11 @@
 "use client";
 
+import * as React from "react";
 import { cn } from "@/lib/utils";
 import type { Product } from "@/lib/types";
+import { hasChestSizing } from "@/lib/size-guide";
 import { useLang } from "./lang-provider";
+import { SizeGuideModal } from "./size-guide-modal";
 
 interface VariantSelectorProps {
   product: Product;
@@ -25,6 +28,8 @@ export function VariantSelector({
 }: VariantSelectorProps) {
   const { t: dict } = useLang();
   const t = dict.product;
+  const [sizeGuideOpen, setSizeGuideOpen] = React.useState(false);
+  const sizeGuideTriggerRef = React.useRef<HTMLButtonElement>(null);
   // Is there an available variant for this colour/size pair?
   const isAvailable = (color: string, size: string) =>
     product.variants.some(
@@ -34,6 +39,16 @@ export function VariantSelector({
     product.variants.some((v) => v.color === color && v.size === size);
 
   const activeColor = product.colors.find((c) => c.value === selectedColor);
+
+  // Sizes this product actually has in stock right now, in any colour — the
+  // Size Guide must only ever recommend something a shopper can buy today,
+  // and only appear at all for products the chest-based guide can serve
+  // (real letter runs, not a one-size accessory or a numeric-waist trouser).
+  const purchasableSizes = React.useMemo(
+    () => product.sizes.filter((s) => product.variants.some((v) => v.size === s && v.available)),
+    [product.sizes, product.variants]
+  );
+  const showSizeGuide = hasChestSizing(purchasableSizes);
 
   return (
     <div className="space-y-6">
@@ -75,10 +90,15 @@ export function VariantSelector({
         <div>
           <div className="flex items-center justify-between">
             <span className="eyebrow">{t.size}</span>
-            {/* A "Size guide" button used to sit here with no onClick — a control
-                styled as clickable that did nothing. Removed rather than faked:
-                restore it once there's a real size chart to open (the client's
-                actual garment measurements), not invented numbers. */}
+            {showSizeGuide && (
+              <button
+                ref={sizeGuideTriggerRef}
+                onClick={() => setSizeGuideOpen(true)}
+                className="link-underline -my-1.5 py-1.5 text-xs text-muted-foreground transition-colors hover:text-foreground"
+              >
+                {t.sizeGuide}
+              </button>
+            )}
           </div>
           <div className="mt-3 flex flex-wrap gap-2">
             {product.sizes.map((size) => {
@@ -90,6 +110,9 @@ export function VariantSelector({
                   key={size}
                   disabled={disabled}
                   aria-pressed={selectedSize === size}
+                  // The strikethrough alone is a visual-only signal; name the
+                  // reason so a screen reader says why the size is unavailable.
+                  aria-label={disabled ? `${size} · ${t.soldOut}` : undefined}
                   onClick={() => onSize(size)}
                   className={cn(
                     "min-w-[3rem] border px-3 py-2 text-xs uppercase tracking-wide transition-colors",
@@ -106,6 +129,15 @@ export function VariantSelector({
             })}
           </div>
         </div>
+      )}
+
+      {showSizeGuide && (
+        <SizeGuideModal
+          open={sizeGuideOpen}
+          onOpenChange={setSizeGuideOpen}
+          availableSizes={purchasableSizes}
+          triggerRef={sizeGuideTriggerRef}
+        />
       )}
     </div>
   );

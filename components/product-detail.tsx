@@ -1,20 +1,22 @@
 "use client";
 
 import * as React from "react";
-import { Check, Truck, RefreshCw, ShoppingBag } from "lucide-react";
+import { Check, Truck, RefreshCw, ShoppingBag, FileDown } from "lucide-react";
 import { toast } from "sonner";
 import type { Product } from "@/lib/types";
 import { cn, formatPrice } from "@/lib/utils";
 import { useCart } from "@/store/cart";
+import { recordView } from "@/lib/recently-viewed";
 import { ImageGallery } from "./image-gallery";
 import { VariantSelector } from "./variant-selector";
 import { AccordionItem } from "./accordion";
+import { FrequentlyBoughtTogether } from "./frequently-bought-together";
 import { Button } from "./ui/button";
 import { Badge } from "./ui/badge";
 import { Separator } from "./ui/separator";
 import { useLang } from "./lang-provider";
 
-export function ProductDetail({ product }: { product: Product }) {
+export function ProductDetail({ product, companions = [] }: { product: Product; companions?: Product[] }) {
   const { lang, t: dict } = useLang();
   const t = dict.product;
   const addItem = useCart((s) => s.addItem);
@@ -55,6 +57,18 @@ export function ProductDetail({ product }: { product: Product }) {
     return comp.replace(/\s+/g, " ").trim();
   }, [product.bodyHtml, lang]);
 
+  // Track this visit for the Recently Viewed rail (localStorage, no backend).
+  React.useEffect(() => {
+    recordView({
+      handle: product.handle,
+      local: product.featuredImage.local,
+      fallback: product.featuredImage.src,
+      title: product.title,
+      titleGr: product.titleOriginal,
+      price: product.price,
+    });
+  }, [product.handle, product.featuredImage.local, product.featuredImage.src, product.title, product.titleOriginal, product.price]);
+
   const price = variant?.price ?? product.price;
   const compareAt = variant?.compareAtPrice ?? product.compareAtPrice;
   const onSale = !!compareAt && compareAt > price;
@@ -88,12 +102,13 @@ export function ProductDetail({ product }: { product: Product }) {
   }
 
   return (
-    <div className="grid gap-10 lg:grid-cols-2 lg:gap-16">
+    <>
+    <div className="container grid gap-10 lg:grid-cols-2 lg:gap-16">
       {/* Gallery */}
       <ImageGallery images={product.images} activeIndex={imageIndex} onSelect={setImageIndex} />
 
       {/* Details */}
-      <div className="lg:py-2">
+      <div className="min-w-0 lg:py-2">
         <p className="eyebrow-gold">{lang === "gr" ? product.productTypeGreek : product.category}</p>
         <h1 className="mt-2 font-serif text-3xl leading-tight md:text-4xl">
           {lang === "gr" ? product.titleOriginal : product.title}
@@ -185,9 +200,23 @@ export function ProductDetail({ product }: { product: Product }) {
           </AccordionItem>
           <AccordionItem title={t.shippingReturns}>
             <p className="prose-bl">{t.shippingBody}</p>
+            <a
+              href={lang === "gr" ? "/legal/withdrawal-form-el.pdf" : "/legal/withdrawal-form-en.pdf"}
+              download
+              className="link-underline mt-4 inline-flex items-center gap-2 text-sm text-foreground"
+            >
+              <FileDown className="h-4 w-4 text-accent" />
+              {dict.withdrawalForm.linkLabel}
+            </a>
+            <p className="mt-1.5 text-xs text-muted-foreground">{dict.withdrawalForm.context}</p>
           </AccordionItem>
         </div>
       </div>
     </div>
+
+    {variant && companions.length > 0 && (
+      <FrequentlyBoughtTogether product={product} variant={variant} companions={companions} />
+    )}
+    </>
   );
 }

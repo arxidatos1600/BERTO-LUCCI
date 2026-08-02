@@ -5,6 +5,11 @@
 # fast. The files stay in git/local for offline dev and as the fallback source.
 public/bertolucci_images
 
+# Design-time image masters. `assets/stores` holds the 1400px storefront
+# originals; the deployment only ever serves the pre-generated rungs written into
+# public/stores by scripts/build-store-images.py.
+assets
+
 # Never needed in a deployment
 berto-lucci-final.zip
 *.zip
